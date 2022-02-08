@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import home from './home';
+import home from './Home';
 import search from './search';
 
 export default new Vuex.Store({
