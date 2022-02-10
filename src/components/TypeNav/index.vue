@@ -1,7 +1,51 @@
 <template>
 	<div class="type-nav">
 		<div class="container">
-			<h2 class="all">全部商品分类</h2>
+			<div @mouseenter="enterShow" @mouseleave="leaveShow">
+				<h2 class="all">全部商品分类</h2>
+				<transition name="sort">
+					<div class="sort" v-show="show">
+						<div class="all-sort-list2" @click="goSearch">
+							<div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
+								<h3>
+									<a
+										:data-categoryName="c1.categoryName"
+										:data-category1Id="c1.categoryId"
+										>{{ c1.categoryName }}</a
+									>
+								</h3>
+								<div class="item-list clearfix">
+									<div
+										class="subitem"
+										v-for="c2 in c1.categoryChild"
+										:key="c2.categoryId"
+									>
+										<dl class="fore">
+											<dt>
+												<a
+													:data-categoryName="c2.categoryName"
+													:data-category2Id="c2.categoryId"
+													>{{ c2.categoryName }}</a
+												>
+											</dt>
+											<dd>
+												<em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+													<a
+														:data-categoryName="c3.categoryName"
+														:data-category3Id="c3.categoryId"
+														>{{ c3.categoryName }}</a
+													>
+												</em>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</transition>
+			</div>
+
 			<nav class="nav">
 				<a href="###">服装城</a>
 				<a href="###">美妆馆</a>
@@ -12,29 +56,6 @@
 				<a href="###">有趣</a>
 				<a href="###">秒杀</a>
 			</nav>
-			<div class="sort">
-				<div class="all-sort-list2">
-					<div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
-						<h3>
-							<a href="">{{c1.categoryName}}</a>
-						</h3>
-						<div class="item-list clearfix">
-							<div class="subitem" v-for="c2 in c1.categoryChild" :key="c2.categoryId ">
-								<dl class="fore">
-									<dt>
-										<a href="">{{c2.categoryName}}</a>
-									</dt>
-									<dd>
-										<em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-											<a href="">{{c3.categoryName}}</a>
-										</em>
-									</dd>  
-								</dl>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </template>
@@ -43,13 +64,52 @@
 import { mapState } from "vuex";
 export default {
 	name: "TypeNav",
+	data() {
+		return {
+			show: true,
+		};
+	},
 	mounted() {
-		this.$store.dispatch("categoryList");
+		
+
+		if (this.$route.path != "/home") {
+			this.show = false;
+		}
 	},
 	computed: {
 		...mapState({
-			categoryList: (state) => state.home.categoryList, 
+			categoryList: (state) => state.home.categoryList,
 		}),
+	},
+	methods: {
+		goSearch(event) {
+			//event参数是标签信息
+			let element = event.target;
+			//dataset获取当前节点的自定义属性，自定义属性=自动转换成小写
+			let { categoryname, category1id, category2id, category3id } =
+				element.dataset;
+			if (categoryname) {
+				let location = { name: "search" };
+				let query = { categoryName: categoryname };
+				if (category1id) {
+					query.category1id = category1id;
+				} else if (category2id) {
+					query.category2id = category2id;
+				} else {
+					query.category3id = category3id;
+				}
+				location.query = query;
+				this.$router.push(location);
+			}
+		},
+		enterShow() {
+			this.show = true;
+		},
+		leaveShow() {
+			if (this.$route.path != "/home") {
+				this.show = false;
+			}
+		},
 	},
 };
 </script>
@@ -108,6 +168,9 @@ export default {
 						a {
 							color: #333;
 						}
+					}
+					h3:hover {
+						background-color: rgb(204, 168, 201);
 					}
 
 					.item-list {
@@ -171,6 +234,17 @@ export default {
 					}
 				}
 			}
+		}
+		.sort-enter {
+			height: 0px;
+			transform: rotate(0deg);
+		}
+		.sort-enter-to {
+			height: 461px;
+			
+		}
+		.sort-enter-active {
+			transition: all 0.5s linear;
 		}
 	}
 }

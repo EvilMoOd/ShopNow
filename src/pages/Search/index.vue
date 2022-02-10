@@ -1,12 +1,13 @@
 <template>
 	<div>
-        
-		<h1>{{ $route.query.keyword }}</h1>
+        <TypeNav/>
 	</div>
 </template>
 
 <script>
-export default {};
+export default {
+	name:'',
+};
 </script>
 
 <style></style>
