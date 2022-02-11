@@ -6,6 +6,10 @@ import store from '@/store'
 import TypeNav from '@/components/TypeNav'
 Vue.component(TypeNav.name, TypeNav)
 
+import 'swiper/css/swiper.css'
+
+import '@/mock/mockServe';
+
 Vue.config.productionTip = false
 
 new Vue({

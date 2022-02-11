@@ -69,13 +69,13 @@ export default {
 			show: true,
 		};
 	},
+	//非主页时不展示侧边栏
 	mounted() {
-		
-
 		if (this.$route.path != "/home") {
 			this.show = false;
 		}
 	},
+	//获取store仓库数据
 	computed: {
 		...mapState({
 			categoryList: (state) => state.home.categoryList,
@@ -90,7 +90,9 @@ export default {
 				element.dataset;
 			if (categoryname) {
 				let location = { name: "search" };
+				//确定点击的是哪哪一级哪一个关键字
 				let query = { categoryName: categoryname };
+				
 				if (category1id) {
 					query.category1id = category1id;
 				} else if (category2id) {
@@ -98,8 +100,13 @@ export default {
 				} else {
 					query.category3id = category3id;
 				}
-				location.query = query;
-				this.$router.push(location);
+				//如果路由有params，则与当前query合并
+				if (this.$route.params) {
+					location.params = this.$route.params;
+					location.query = query
+					//添加到地址栏
+					this.$router.push(location);
+				}
 			}
 		},
 		enterShow() {
@@ -241,7 +248,6 @@ export default {
 		}
 		.sort-enter-to {
 			height: 461px;
-			
 		}
 		.sort-enter-active {
 			transition: all 0.5s linear;

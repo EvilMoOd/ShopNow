@@ -17,6 +17,7 @@ export default {
     Header,
     Footer
   },
+  //全局获取一次就不用反复获取加载
   mounted() {
     this.$store.dispatch("categoryList");
   },

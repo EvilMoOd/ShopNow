@@ -1,4 +1,4 @@
-<template> 
+<template>
 	<header class="header">
 		<!-- 头部的第一行 -->
 		<div class="top">
@@ -61,12 +61,18 @@ export default {
 	},
 	methods: {
 		goSearch() {
-			this.$router.push({
-				path:'search',
-				query:{
-					keyword:this.keyword
-				}
-			});
+			//如果有query参数，则与当前params合并
+			if (this.$route.query) {
+				let location = {
+					name: "search",
+					params: {
+						keyword: this.keyword || undefined,
+					},
+				};
+				location.query = this.$route.query;
+				// 添加到地址栏
+				this.$router.push(location);
+			}
 		},
 	},
 };
