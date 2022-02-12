@@ -94,11 +94,11 @@ export default {
 				let query = { categoryName: categoryname };
 				
 				if (category1id) {
-					query.category1id = category1id;
+					query.category1Id = category1id;
 				} else if (category2id) {
-					query.category2id = category2id;
+					query.category2Id = category2id;
 				} else {
-					query.category3id = category3id;
+					query.category3Id = category3id;
 				}
 				//如果路由有params，则与当前query合并
 				if (this.$route.params) {

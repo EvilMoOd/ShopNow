@@ -30,23 +30,7 @@
 						</div>
 						<div class="floorBanner">
 							<!-- 轮播图 -->
-							<div class="swiper-container" id="floor1Swiper">
-								<div class="swiper-wrapper">
-									<div
-										class="swiper-slide"
-										v-for="carousel in list.carouselList"
-										:key="carousel.id"
-									>
-										<img :src="carousel.imgUrl" />
-									</div>
-								</div>
-								<!-- 如果需要分页器 -->
-								<div class="swiper-pagination"></div>
-
-								<!-- 如果需要导航按钮 -->
-								<div class="swiper-button-prev"></div>
-								<div class="swiper-button-next"></div>
-							</div>
+							<Carousel :list="list.carouselList" />
 						</div>
 						<div class="split">
 							<span class="floor-x-line"></span>
@@ -82,27 +66,6 @@ export default {
 	name: "",
 	props: ["list"],
 	//这里能用mounted原因是在这里没有发请求，数据已经通过父类home组件拿到，结构已经呈现了
-	mounted() {
-		var mySwiper = new Swiper(".swiper-container", {
-			loop: true, // 循环模式选项
-
-			// 如果需要分页器
-			pagination: {
-				el: ".swiper-pagination",
-				clickable: true,
-			},
-
-			// 如果需要前进后退按钮
-			navigation: {
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev",
-			},
-			// 如果需要滚动条
-			scrollbar: {
-				el: ".swiper-scrollbar",
-			},
-		});
-	},
 };
 </script>
 
