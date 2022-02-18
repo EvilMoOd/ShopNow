@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import Swiper from "swiper";
 export default {
 	name: "",
 	props: ["list"],
